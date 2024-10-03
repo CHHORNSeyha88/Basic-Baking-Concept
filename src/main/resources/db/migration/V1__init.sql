@@ -16,17 +16,18 @@ CREATE TABLE account
 
 CREATE TABLE bank_users
 (
-    uid       VARCHAR(255) NOT NULL,
-    firstname VARCHAR(255) NOT NULL,
-    lastname  VARCHAR(255) NOT NULL,
-    username  VARCHAR(255) NOT NULL,
-    dob       TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    tel       BIGINT       NOT NULL,
-    tag       VARCHAR(255),
-    password  VARCHAR(255) NOT NULL,
-    gender    VARCHAR(255),
-    create_at TIMESTAMP WITHOUT TIME ZONE,
-    update_at TIMESTAMP WITHOUT TIME ZONE,
+    uid        VARCHAR(255) NOT NULL,
+    firstname  VARCHAR(255),
+    lastname   VARCHAR(255),
+    username   VARCHAR(255) NOT NULL,
+    dob        TIMESTAMP WITHOUT TIME ZONE,
+    tel        BIGINT       NOT NULL,
+    tag        VARCHAR(255),
+    password   VARCHAR(255),
+    gender     VARCHAR(255),
+    created_at TIMESTAMP WITHOUT TIME ZONE,
+    updated_at TIMESTAMP WITHOUT TIME ZONE,
+    roles      TEXT[],
     CONSTRAINT pk_bank_users PRIMARY KEY (uid)
 );
 
@@ -64,12 +65,6 @@ CREATE TABLE transactions
     CONSTRAINT pk_transactions PRIMARY KEY (tx_id)
 );
 
-CREATE TABLE user_roles
-(
-    user_id VARCHAR(255) NOT NULL,
-    role    VARCHAR(255)
-);
-
 ALTER TABLE account
     ADD CONSTRAINT uc_account_accountnumber UNIQUE (account_number);
 
@@ -96,6 +91,3 @@ ALTER TABLE transactions
 
 ALTER TABLE transactions
     ADD CONSTRAINT FK_TRANSACTIONS_ON_OWNER FOREIGN KEY (owner_id) REFERENCES bank_users (uid);
-
-ALTER TABLE user_roles
-    ADD CONSTRAINT fk_user_roles_on_user FOREIGN KEY (user_id) REFERENCES bank_users (uid);

@@ -24,57 +24,99 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class User implements UserDetails {
 
+    /**
+     * Unique identifier for the user.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String uid;
 
-    @Column(nullable = false)
+    /**
+     * First name of the user.
+     */
     private String firstname;
 
-    @Column(nullable = false)
+    /**
+     * Last name of the user.
+     */
     private String lastname;
 
+    /**
+     * Unique username for the user.
+     */
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    /**
+     * Date of birth of the user.
+     */
     private Date dob;
 
-    @Column(nullable = false)
+    /**
+     * Telephone number of the user.
+     */
     private long tel;
 
+    /**
+     * Additional tag for the user.
+     */
     private String tag;
 
-    @Column(nullable = false)
+    /**
+     * Encrypted password for the user.
+     */
+    @JsonIgnore
     private String password;
 
+    /**
+     * Gender of the user.
+     */
     private String gender;
 
+    /**
+     * Timestamp of when the user was created.
+     */
     @CreationTimestamp
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
+
+    /**
+     * Timestamp of when the user was last updated.
+     */
     @UpdateTimestamp
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 
-    @ElementCollection
-    private List<String>roles;
+    /**
+     * List of roles assigned to the user.
+     */
 
+    private List<String> roles;
 
-
-
-
+    /**
+     * One-to-one relationship with the Card entity, representing the user's card.
+     */
     @OneToOne(mappedBy = "owner")
-    @JsonIgnore
+//    @JsonIgnore
     private Card card;
 
-    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JsonIgnore
+    /**
+     * One-to-many relationship with the Transaction entity, representing the user's transactions.
+     */
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JsonIgnore
     private List<Transactions> transactions;
 
-    @OneToMany(mappedBy = "owner",cascade= CascadeType.ALL,fetch =FetchType.LAZY)
-    @JsonIgnore
+    /**
+     * One-to-many relationship with the Account entity, representing the user's accounts.
+     */
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JsonIgnore
     private List<Account> accounts;
 
-
+    /**
+     * Returns a collection of granted authorities based on the user's roles.
+     *
+     * @return Collection of granted authorities.
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());

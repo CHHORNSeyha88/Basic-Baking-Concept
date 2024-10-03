@@ -14,7 +14,7 @@ import seyha.web.app.Bank_Concepts.entity.User;
 import seyha.web.app.Bank_Concepts.service.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -26,6 +26,7 @@ public class UserController {
         return ResponseEntity.ok(userService.registerUser(userDto));
     }
 
+    @PostMapping("/auth")
     public ResponseEntity<?> authenticationManager(@RequestBody UserDto userDto){
         var authObject = userService.authenticateUser(userDto);
         return ResponseEntity.ok()

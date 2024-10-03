@@ -35,7 +35,7 @@ public class UserService {
 
 
     public User registerUser(UserDto userResponse) {
-        User user = UserMapToUserDTO(userResponse);
+        User user = mapToUser(userResponse);
         return userRepository.save(user);
     }
 
@@ -52,19 +52,17 @@ public class UserService {
         return authObject;
     }
 
-    private User UserMapToUserDTO(UserDto userResponse){
 
-        User userRequest = new User();
-        userRequest.setFirstname(userResponse.getFirstname());
-        userRequest.setLastname(userResponse.getLastname());
-        userRequest.setUsername(userResponse.getUsername());
-        userRequest.setPassword(passwordEncoder.encode(userResponse.getPassword()));
-        userRequest.setTag("cambank" + userResponse.getUsername());
-        userRequest.setDob(userResponse.getDob());
-        userRequest.setGender(userResponse.getGender());
-        userRequest.setTel(userResponse.getTel());
-        userRequest.setRoles(List.of("USER"));
-        return userRepository.save(userRequest);
+    private User mapToUser(UserDto dto){
+        return User.builder()
+                .lastname(dto.getLastname())
+                .firstname(dto.getFirstname())
+                .username(dto.getUsername())
+                .password(passwordEncoder.encode(dto.getPassword()))
+                .dob(dto.getDob())
+                .roles(List.of("USER"))
+                .tag("cambank" + dto.getUsername())
+                .build();
     }
 
 }
