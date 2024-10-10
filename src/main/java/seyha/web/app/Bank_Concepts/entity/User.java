@@ -102,14 +102,14 @@ public class User implements UserDetails {
      * One-to-many relationship with the Transaction entity, representing the user's transactions.
      */
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JsonIgnore
+    @JsonIgnore
     private List<Transactions> transactions;
 
     /**
      * One-to-many relationship with the Account entity, representing the user's accounts.
      */
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JsonIgnore
+    @JsonIgnore
     private List<Account> accounts;
 
     /**
