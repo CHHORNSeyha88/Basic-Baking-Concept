@@ -28,7 +28,7 @@ public class Card {
 
     private String cardType;
 
-    private String cvv;
+    private long cvv;
 
     private Double balance;
     private String pin;

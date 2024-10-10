@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seyha.web.app.Bank_Concepts.dto.AccountDto;
+import seyha.web.app.Bank_Concepts.dto.ConvertDto;
 import seyha.web.app.Bank_Concepts.dto.TransferDto;
 import seyha.web.app.Bank_Concepts.entity.Account;
 import seyha.web.app.Bank_Concepts.entity.Transactions;
@@ -29,8 +30,12 @@ public class AccountService {
     }
 
     public List<Account> getUserAccounts(String uid) {
-        return accountRepository.findAllByOwnerUid(uid);
+        return accountRepository.findAllByOwnerUid(uid)
+                .stream()
+                .distinct()
+                .toList();
     }
+
 
     public Transactions transferFunds(TransferDto transferDto, User user) throws OperationNotSupportedException {
 
@@ -50,5 +55,9 @@ public class AccountService {
      */
     public Map<String, Double> getExchangeRate() {
         return exchangeService.getRates();
+    }
+
+    public Transactions getConvertCurrency(ConvertDto convertDto, User user) throws Exception {
+        return accountAsistant.convertCurrency(convertDto,user);
     }
 }

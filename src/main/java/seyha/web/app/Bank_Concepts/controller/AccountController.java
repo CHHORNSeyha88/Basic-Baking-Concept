@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import seyha.web.app.Bank_Concepts.dto.AccountDto;
+import seyha.web.app.Bank_Concepts.dto.ConvertDto;
 import seyha.web.app.Bank_Concepts.dto.TransferDto;
 import seyha.web.app.Bank_Concepts.entity.Account;
 import seyha.web.app.Bank_Concepts.entity.Transactions;
@@ -53,4 +54,9 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getExchangeRate());
     }
 
+    @PostMapping("/convert")
+    public ResponseEntity<Transactions> convertCurrency(@RequestBody ConvertDto convertDto, Authentication authentication) throws Exception {
+        var user = (User) authentication.getPrincipal();
+        return ResponseEntity.ok(accountService.getConvertCurrency(convertDto, user));
+    }
 }
